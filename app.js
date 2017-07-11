@@ -25,11 +25,21 @@ app.use(express.static(path.join(__dirname,'public')));
 io.on('connection',function(socket)
 {
     console.log("a user is connected");
-    socket.on('message',function(msg)
+    socket.on('join',function(name)
     {
-        console.log("message:" + msg);
-        io.emit('convomsg',msg);
+console.log("This is name of user " + name);
+ socket.nickname=name;
+ //console.log(socket.nickname);
+    
     });
+    socket.on('message',function(msg)
+    {    //console.log(socket.nickname);
+        var nickname=socket.nickname;
+       console.log("message:"+ nickname + ":" +  msg);
+      var x=nickname+":"+msg;
+        io.emit('convomsg',x);
+    });
+    
 });
 
 
